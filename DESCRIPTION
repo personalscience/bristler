@@ -1,7 +1,7 @@
 Package: bristler
 Type: Package
 Title: Analyze Oral Microbiome Data from Bristle Health
-Version: 0.1.0
+Version: 0.1.1
 Author: Richard Sprague
 Maintainer: The package maintainer <sprague@personalscience.com>
 Description: Read Bristle-formated oral microbiome data

@@ -22,6 +22,7 @@ read_bristle_table <- function(filepath=file.path("data","BristleHealthRaw.xlsx"
 #' @description Generate a ggplot of an ordered frequency of the genus in the sample
 #' @param r_table Bristle canonical raw dataframe
 #' @import ggplot2
+#' @export
 #' @return ggplot object
 plot_bristle_freq <- function(r_table) {
 
