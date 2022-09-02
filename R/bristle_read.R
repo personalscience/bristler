@@ -26,8 +26,9 @@ read_bristle_table <- function(filepath=file.path("data","BristleHealthRaw.xlsx"
 #' @return ggplot object
 plot_bristle_freq <- function(r_table) {
 
-  r_table %>% # summarize(total=sum(sum))# %>%
-    ggplot(aes(x=reorder(.data$genus,-sum), y=sum)) +
+  r_table %>%  dplyr::group_by(genus) %>% dplyr::summarize(sum=sum(abundance)) %>%
+    dplyr::arrange(desc(sum)) %>% dplyr::slice_max(order_by=sum, prop=.5) %>%
+    ggplot(aes(x=reorder(.data$genus,-.data$sum), y=.data$sum)) +
     geom_col() +
     theme(axis.text.x=element_text(angle = 90, vjust = 0.5)) +
     labs(y="Abundance (%)", x = "Genus", title = "Bristle Health Result")
