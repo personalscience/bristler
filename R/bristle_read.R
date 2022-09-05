@@ -22,11 +22,12 @@ read_bristle_table <- function(filepath=file.path("data","BristleHealthRaw.xlsx"
 #' @description Generate a ggplot of an ordered frequency of the genus in the sample
 #' @param r_table Bristle canonical raw dataframe
 #' @import ggplot2
+#' @importFrom dplyr desc
 #' @export
 #' @return ggplot object
 plot_bristle_freq <- function(r_table) {
 
-  r_table %>%  dplyr::group_by(genus) %>% dplyr::summarize(sum=sum(abundance)) %>%
+  r_table %>%  dplyr::group_by(.data$genus) %>% dplyr::summarize(sum=sum(.data$abundance)) %>%
     dplyr::arrange(desc(sum)) %>% dplyr::slice_max(order_by=sum, prop=.5) %>%
     ggplot(aes(x=reorder(.data$genus,-.data$sum), y=.data$sum)) +
     geom_col() +
