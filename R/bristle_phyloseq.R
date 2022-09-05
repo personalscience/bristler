@@ -33,8 +33,11 @@ phyloseqize <- function(bristle_df, mapfile) {
   colnames(e.matrix) <- ssrs
   rownames(e.matrix) <- qiime_tax_names
 
+  map.data.ps <- phyloseq::sample_data(mapfile)
+  phyloseq::sample_names(map.data.ps) <- mapfile$ssr
+
   e.ps <- phyloseq::phyloseq(phyloseq::otu_table(e.matrix, taxa_are_rows = TRUE),
-                   #sample_data(e.map)) #,
+                   map.data.ps, #sample_data(e.map)) #,
                    phyloseq::tax_table(e.taxtable))
 
   return(e.ps)
