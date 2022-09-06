@@ -31,7 +31,9 @@ From your desktop browser, you should be able to select the contents of
 the table with your mouse. Just click and drag every cell in the table,
 including the top header row.
 
-Copy/paste that Bristle raw data into a Microsoft Excel sheet and save.
+Copy/paste that Bristle raw data. You can either use it interactively
+with the function `bristler::clip_bristle_table()` or save it to a
+Microsoft Excel file and read with `bristler::read_bristle_table()`.
 
 Read that data into R:
 
@@ -51,6 +53,8 @@ library(tidyverse)
 my_bristle_file <- system.file("extdata", package = "bristler", "BristleHealthRaw.xlsx") # example
 
 bristle_raw <- bristler::read_bristle_table(filepath= my_bristle_file)
+
+# bristle_raw <- bristler::clip_bristle_table()  # interactive method, from clipboard.
 ```
 
 Generate a simple frequency plot
@@ -80,13 +84,6 @@ bristle_raw %>% treemap::treemap(dtf=., index = c("genus","species"),
 Make fancier treemaps, like those needed for animations, like this:
 
 ``` r
-s1 <- bristler::treemap_of_sample(bristle_raw) %>% dplyr::mutate(label = "Oral")
-```
-
-<img src="man/figures/README-plotforanimation-1.png" width="100%" />
-
-``` r
-
 s1 %>% dplyr::group_by(label) %>%
   ggplot(aes(xmin = x0, ymin = y0, xmax = x1, ymax = y1, mysample=label)) +
   # add fill and borders for groups and subgroups
@@ -95,4 +92,13 @@ s1 %>% dplyr::group_by(label) %>%
   scale_fill_identity()
 ```
 
-<img src="man/figures/README-plotforanimation-2.png" width="100%" />
+<img src="man/figures/README-plotforanimation-1.png" width="100%" />
+
+## Other
+
+The function `bristler::phyloseqize()` will convert your Bristle data
+into a Phyloseq object.
+
+See other examples at the
+[personalscience/bristlehealth](https://github.com/personalscience/bristlehealth)
+repo.

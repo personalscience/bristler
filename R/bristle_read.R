@@ -1,12 +1,12 @@
 # bristle_read.R
 
 
-#' @title Tidy Dataframe in Canonical Form
+#' @title Read File Into Tidy Dataframe in Canonical Form
 #' @return tidy data frame of Bristle data in canonical form
 #' @export
 #' @param filepath path to XLSX file
 #' @return dataframe
-read_bristle_table <- function(filepath=file.path("data","BristleHealthRaw.xlsx")) {
+read_bristle_table <- function(filepath=system.file("extdata", package = "bristler", "BristleHealthRaw.xlsx")) {
 
   raw_bristle_data <- readxl::read_xlsx(filepath)
 
@@ -17,6 +17,26 @@ read_bristle_table <- function(filepath=file.path("data","BristleHealthRaw.xlsx"
   return(r)
 
 }
+
+#' @title Copy Clipboard into Tidy Dataframe in Canonical Form
+#' @return tidy data frame of Bristle data in canonical form
+#' @export
+#' @return dataframe
+clip_bristle_table <- function() {
+
+  #clip_data <- clipr::read_clip_tbl()
+  df <- as.data.frame(matrix(clipr::read_clip(allow_non_interactive = TRUE), ncol = 3, byrow = TRUE))
+  names(df) <- c("genus","species","abundance")
+
+  r <- dplyr::tibble(df[-1,]) %>%   # remove redundant first row
+    transmute(genus,species,abundance = as.numeric(abundance)/100)
+
+
+
+  return(r)
+
+}
+
 
 #' @title GGplot Frequency for Sample
 #' @description Generate a ggplot of an ordered frequency of the genus in the sample

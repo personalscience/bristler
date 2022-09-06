@@ -2,9 +2,11 @@
 % Please edit documentation in R/bristle_read.R
 \name{read_bristle_table}
 \alias{read_bristle_table}
-\title{Tidy Dataframe in Canonical Form}
+\title{Read File Into Tidy Dataframe in Canonical Form}
 \usage{
-read_bristle_table(filepath = file.path("data", "BristleHealthRaw.xlsx"))
+read_bristle_table(
+  filepath = system.file("extdata", package = "bristler", "BristleHealthRaw.xlsx")
+)
 }
 \arguments{
 \item{filepath}{path to XLSX file}
@@ -15,5 +17,5 @@ tidy data frame of Bristle data in canonical form
 dataframe
 }
 \description{
-Tidy Dataframe in Canonical Form
+Read File Into Tidy Dataframe in Canonical Form
 }
