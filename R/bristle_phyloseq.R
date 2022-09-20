@@ -8,6 +8,13 @@
 #' @param mapfile dataframe (see instructions)
 #' @return phyloseq object
 phyloseqize <- function(bristle_df, mapfile) {
+  if (!requireNamespace("phyloseq", quietly = TRUE)) {
+    stop(
+      "Package \"phyloseq\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
+
   bristle_experiment <- bristle_df %>%
     transmute(ssr,
               tax_name = genus,
