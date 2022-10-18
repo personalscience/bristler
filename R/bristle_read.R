@@ -8,7 +8,11 @@
 #' @return dataframe
 read_bristle_table <- function(filepath=system.file("extdata", package = "bristler", "BristleHealthRaw.xlsx")) {
 
-  raw_bristle_data <- readxl::read_xlsx(filepath)
+  raw_bristle_data_raw <- readxl::read_xlsx(filepath) %>% dplyr::filter(!is.na(Species))
+  raw_bristle_data <- raw_bristle_data_raw %>%
+    transmute(species = species_from_species(Species), genus = genus_from_species(Species),
+              `relative abundance` = `Relative abundance`,
+              percentile = `Percentile`)
 
   r <- raw_bristle_data %>%  transmute(.data$genus,.data$species,abundance=.data$`relative abundance`/100)
 
@@ -27,8 +31,26 @@ genus_from_species <- function(species_name) {
   s <- stringr::str_split(species_name, pattern = " ")
   if(is.null(s)) return(NULL)
   if(is.list(s)) {
-    if(!length(s)==1) return(NULL)
-    return(s[[1]][1])
+    s1 <- s
+    s2 <- s1 %>% sapply(function(x){dplyr::first(dplyr::first(x))})
+    return(s2)
+  }
+  return(s) # this is an "other" condition, if for whatever reason it's not a list
+
+}
+
+#' @title Species name from species
+#' @description Return the species of a species. Assumes it's the second word of the full species name.
+#' @export
+#' @param species_name char Species name
+#' @return char species name (as a string)
+species_from_species <- function(species_name) {
+  s <- stringr::str_split(species_name, pattern = " ")
+  if(is.null(s)) return(NULL)
+  if(is.list(s)) {
+    s1 <- s
+    s2 <- s1 %>% sapply(function(x){dplyr::first(dplyr::nth(x,2))})
+    return(s2)
   }
   return(s) # this is an "other" condition, if for whatever reason it's not a list
 

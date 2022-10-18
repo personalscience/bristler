@@ -6,16 +6,27 @@
 # # read it like this:
 # readRDS("tests/testthat/clipdata.rds")
 
-b <- bristler::bristle_sample
+b <- bristler::bristle_sample %>% dplyr::arrange(abundance)
+
+test_that("read bristle table from Excel",{
+  t <- read_bristle_table() %>% dplyr::filter(genus == "Bacillus") %>% dplyr::pull(abundance)
+  expect_equal(t, 0.00473, tolerance = 0.001)
+})
 
 test_that("genus from species", {
   expect_equal(genus_from_species("test microbe"), "test")
   expect_equal(genus_from_species("microbe"), "microbe")
 })
 
+test_that("species from species", {
+  expect_equal(species_from_species("test microbe"), "microbe")
+  expect_equal(species_from_species("microbe"), "NA")
+})
+
+
 test_that("plot_freq works", {
   p <- bristler::plot_bristle_freq(head(b))
-  expect_equal(p$data$sum[1], 0.2629591, tolerance = 0.001 )
+  expect_equal(p$data$sum[1], 0.000148, tolerance = 0.001 )
 })
 
 test_that("treemap works", {

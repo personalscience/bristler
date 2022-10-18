@@ -15,7 +15,9 @@ test_that("phyloseqize creates a phyloseq object", {
 test_that("phyloseqize: dimensions are correct ", {
 
   expect_equal(as.numeric(nrow(phyloseq::otu_table(p))),38)
-  expect_equal(as.character(phyloseq::tax_table(p)[5,1]), "Rothia")
+  expect_equal( phyloseq::subset_taxa(p, Genus=="Rothia") %>% phyloseq::taxa_sums() %>% as.numeric(),
+                552.09)
+  #expect_equal(as.character(phyloseq::tax_table(p)[5,1]), "Rothia")
   expect_equal(as.character(phyloseq::sample_data(p)[1,2]), "baseline")
 
 })

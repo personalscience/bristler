@@ -34,6 +34,8 @@ including the top header row.
 Copy/paste that Bristle raw data. You can either use it interactively
 with the function `bristler::clip_bristle_table()` or save it to a
 Microsoft Excel file and read with `bristler::read_bristle_table()`.
+(Note: as of the new raw format in Oct 2022, we recommend you save to
+Excel first, then manually ensure the first row is the correct headings)
 
 Read that data into R:
 
@@ -43,7 +45,7 @@ library(tidyverse)
 #> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
 #> ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
 #> ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-#> ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
+#> ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
 #> ✔ readr   2.1.2      ✔ forcats 0.5.2 
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
@@ -89,7 +91,8 @@ s1 %>% dplyr::group_by(label) %>%
   # add fill and borders for groups and subgroups
   geom_rect(aes(fill = color, size = primary_group),
             show.legend = FALSE, color = "black", alpha = .3) +
-  scale_fill_identity()
+  scale_fill_identity() +
+    ggfittext::geom_fit_text(aes(label = genus), min.size = 1) 
 ```
 
 <img src="man/figures/README-plotforanimation-1.png" width="100%" />

@@ -1,7 +1,7 @@
 Type: Package
 Package: bristler
 Title: Analyze Oral Microbiome Data from Bristle Health
-Version: 0.1.7
+Version: 0.1.8
 Author: Richard Sprague
 Maintainer: The package maintainer <sprague@personalscience.com>
 Description: Read Bristle-formated oral microbiome data Generate plots and
@@ -17,6 +17,7 @@ Imports:
     readxl,
     rlang,
     stats,
+    stringr,
     tidyr,
     treemap
 Suggests: 

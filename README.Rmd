@@ -38,7 +38,7 @@ Log in to your Bristle account and switch the the [raw data](https://app.bristle
 
 From your desktop browser, you should be able to select the contents of the table with your mouse. Just click and drag every cell in the table, including the top header row.
 
-Copy/paste that Bristle raw data.  You can either use it interactively with the function `bristler::clip_bristle_table()`  or save it to a Microsoft Excel file and read with `bristler::read_bristle_table()`. 
+Copy/paste that Bristle raw data.  You can either use it interactively with the function `bristler::clip_bristle_table()`  or save it to a Microsoft Excel file and read with `bristler::read_bristle_table()`. (Note: as of the new raw format in Oct 2022, we recommend you save to Excel first, then manually ensure the first row is the correct headings)
 
 Read that data into R:
 
@@ -86,7 +86,9 @@ s1 %>% dplyr::group_by(label) %>%
   # add fill and borders for groups and subgroups
   geom_rect(aes(fill = color, size = primary_group),
             show.legend = FALSE, color = "black", alpha = .3) +
-  scale_fill_identity()
+  scale_fill_identity() +
+    ggfittext::geom_fit_text(aes(label = genus), min.size = 1) 
+
 
 ```
 
