@@ -18,6 +18,22 @@ read_bristle_table <- function(filepath=system.file("extdata", package = "bristl
 
 }
 
+#' @title Genus from species
+#' @description Return the genus of a species. Assumes it's the first word of the full species name.
+#' @export
+#' @param species_name char Species name
+#' @return char Genus name (as a string)
+genus_from_species <- function(species_name) {
+  s <- stringr::str_split(species_name, pattern = " ")
+  if(is.null(s)) return(NULL)
+  if(is.list(s)) {
+    if(!length(s)==1) return(NULL)
+    return(s[[1]][1])
+  }
+  return(s) # this is an "other" condition, if for whatever reason it's not a list
+
+}
+
 #' @title Copy Clipboard into Tidy Dataframe in Canonical Form
 #' @return tidy data frame of Bristle data in canonical form
 #' @export
